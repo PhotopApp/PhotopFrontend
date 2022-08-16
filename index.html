@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8" />
+
+<title>Photop</title>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Photop" />
+<meta property="og:site_name" content="Photop" />
+<meta property="og:url" content="https://photop.live/" />
+<meta property="og:description" content="Browse posts made by users and chat your thoughts live with others." />
+<meta property="og:image" content="https://app.photop.live/icons/favicon.png" />
+
+<meta name="description" content="Browse posts made by users and chat your thoughts live with others." />
+<meta name="author" content="Exotek" />
+<link rel="shortcut icon" href="https://app.photop.live/icons/favicon.png" type="image/x-icon" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="theme-color" content="#7DCBFF" />
+
+<link rel="icon" href="https://app.photop.live/icons/favicon.png" />
+<link rel="apple-touch-icon" href="./icons/favicon.png" />
+
+<link rel="manifest" href="./manifest.json" />
+
+<meta http-equiv="Cache-control" content="public, max-age=1800" />
+<meta http-equiv="Content-Type" content="text/html; charset= ISO-8859-1" />
+
+<meta name="Access-Control-Allow-Origin"
+  value="http://localhost, https://hcaptcha.com, https://*.hcaptcha.com, https://hcaptcha.com, https://*.hcaptcha.com, https://hcaptcha.com, https://*.hcaptcha.com, https://hcaptcha.com, https://*.hcaptcha.com" />
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<style>
+  /* Font Start */
+  @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,600,700,800&display=swap');
+  /* Font End */
+</style>
+
+<body class="body">
+  <noscript>Please enable JavaScript to use this app.</noscript>
+
+  <div class="app">
+    <div class="sidebar">
+      <div class="sidebarSection">
+        <svg id="photopIcon" width="100%" viewBox="0 0 668 188" xmlns="http://www.w3.org/2000/svg">
+          <rect y="0.0800018" width="361.813" height="160.427" rx="27.3067" fill="var(--themeColor)"></rect>
+          <path
+            d="M116.565 61.7867C116.565 69.0684 114.859 75.7244 111.445 81.7547C108.146 87.6711 103.083 92.4498 96.256 96.0907C89.5431 99.6178 81.2942 101.381 71.5093 101.381H54.9547V142H21.504V21.68H71.5093C81.1804 21.68 89.3724 23.3867 96.0853 26.8C102.912 30.2133 108.032 34.9351 111.445 40.9653C114.859 46.9955 116.565 53.936 116.565 61.7867ZM68.2667 74.7573C77.7102 74.7573 82.432 70.4338 82.432 61.7867C82.432 53.0258 77.7102 48.6453 68.2667 48.6453H54.9547V74.7573H68.2667ZM192.98 45.4027C203.903 45.4027 212.55 49.1004 218.921 56.496C225.407 63.7778 228.649 73.6764 228.649 86.192V142H195.199V90.6293C195.199 85.168 193.776 80.9013 190.932 77.8293C188.088 74.6436 184.276 73.0507 179.497 73.0507C174.491 73.0507 170.566 74.6436 167.721 77.8293C164.877 80.9013 163.455 85.168 163.455 90.6293V142H130.004V15.7067H163.455V59.9093C166.413 55.5858 170.395 52.1155 175.401 49.4987C180.521 46.768 186.381 45.4027 192.98 45.4027ZM291.548 143.195C281.991 143.195 273.4 141.204 265.777 137.221C258.268 133.239 252.352 127.55 248.028 120.155C243.704 112.759 241.543 104.055 241.543 94.0427C241.543 84.144 243.704 75.4969 248.028 68.1013C252.465 60.7058 258.439 55.0169 265.948 51.0347C273.571 47.0524 282.161 45.0613 291.719 45.0613C301.276 45.0613 309.809 47.0524 317.319 51.0347C324.942 55.0169 330.915 60.7058 335.239 68.1013C339.676 75.4969 341.895 84.144 341.895 94.0427C341.895 103.941 339.676 112.645 335.239 120.155C330.915 127.55 324.942 133.239 317.319 137.221C309.696 141.204 301.105 143.195 291.548 143.195ZM291.548 114.181C296.213 114.181 300.081 112.475 303.153 109.061C306.339 105.534 307.932 100.528 307.932 94.0427C307.932 87.5573 306.339 82.608 303.153 79.1947C300.081 75.7813 296.27 74.0747 291.719 74.0747C287.168 74.0747 283.356 75.7813 280.284 79.1947C277.212 82.608 275.676 87.5573 275.676 94.0427C275.676 100.642 277.155 105.648 280.113 109.061C283.072 112.475 286.883 114.181 291.548 114.181Z"
+            fill="white"></path>
+          <path
+            d="M439.808 113.499V142H425.301C400.839 142 388.608 129.883 388.608 105.648V74.0747H376.832V46.256H388.608V23.0453H422.229V46.256H439.637V74.0747H422.229V106.16C422.229 108.777 422.798 110.654 423.936 111.792C425.188 112.93 427.236 113.499 430.08 113.499H439.808ZM499.695 143.195C490.137 143.195 481.547 141.204 473.924 137.221C466.415 133.239 460.498 127.55 456.175 120.155C451.851 112.759 449.689 104.055 449.689 94.0427C449.689 84.144 451.851 75.4969 456.175 68.1013C460.612 60.7058 466.585 55.0169 474.095 51.0347C481.718 47.0524 490.308 45.0613 499.865 45.0613C509.423 45.0613 517.956 47.0524 525.465 51.0347C533.088 55.0169 539.062 60.7058 543.385 68.1013C547.823 75.4969 550.041 84.144 550.041 94.0427C550.041 103.941 547.823 112.645 543.385 120.155C539.062 127.55 533.088 133.239 525.465 137.221C517.842 141.204 509.252 143.195 499.695 143.195ZM499.695 114.181C504.36 114.181 508.228 112.475 511.3 109.061C514.486 105.534 516.079 100.528 516.079 94.0427C516.079 87.5573 514.486 82.608 511.3 79.1947C508.228 75.7813 504.416 74.0747 499.865 74.0747C495.314 74.0747 491.503 75.7813 488.431 79.1947C485.359 82.608 483.823 87.5573 483.823 94.0427C483.823 100.642 485.302 105.648 488.26 109.061C491.218 112.475 495.03 114.181 499.695 114.181ZM597.101 59.568C599.718 55.1307 603.416 51.6036 608.195 48.9867C612.973 46.3698 618.605 45.0613 625.091 45.0613C632.714 45.0613 639.597 47.0524 645.741 51.0347C651.999 55.0169 656.892 60.7058 660.419 68.1013C664.06 75.4969 665.88 84.144 665.88 94.0427C665.88 103.941 664.06 112.645 660.419 120.155C656.892 127.55 651.999 133.239 645.741 137.221C639.597 141.204 632.714 143.195 625.091 143.195C618.605 143.195 612.973 141.886 608.195 139.269C603.53 136.652 599.832 133.125 597.101 128.688V187.739H563.651V46.256H597.101V59.568ZM631.917 94.0427C631.917 87.7849 630.211 82.9493 626.797 79.536C623.498 76.0089 619.402 74.2453 614.509 74.2453C609.617 74.2453 605.464 76.0089 602.051 79.536C598.751 83.0631 597.101 87.8987 597.101 94.0427C597.101 100.3 598.751 105.193 602.051 108.72C605.464 112.247 609.617 114.011 614.509 114.011C619.402 114.011 623.498 112.247 626.797 108.72C630.211 105.079 631.917 100.187 631.917 94.0427Z"
+            fill="var(--themeColor)"></path>
+        </svg>
+      </div>
+      <div class="sidebarSection" id="sidebarButtons">
+        <button class="sidebarButton">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_101:2)">
+                <mask id="mask0_101:2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="12" y="78" width="231"
+                  height="187">
+                  <path d="M12.1473 78.6676H242.853V264.925H12.1473V78.6676Z" fill="var(--themeColor)"></path>
+                </mask>
+                <g mask="url(#mask0_101:2)">
+                  <path
+                    d="M50.2857 60.2117H203.549C206.863 60.2117 209.549 62.898 209.549 66.2117V225.643C209.549 228.956 206.863 231.643 203.549 231.643H159.813C156.499 231.643 153.813 228.956 153.813 225.643V192.424C153.813 178.064 142.172 166.424 127.813 166.424H126.605C112.246 166.424 100.605 178.064 100.605 192.424V225.643C100.605 228.956 97.9186 231.643 94.6049 231.643H50.2857C46.972 231.643 44.2857 228.956 44.2857 225.643V66.2117C44.2857 62.898 46.972 60.2117 50.2857 60.2117Z"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                </g>
+                <mask id="mask1_101:2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-3" y="0" width="261"
+                  height="103">
+                  <path d="M-3 0H258V102.045H-3V0Z" fill="var(--themeColor)"></path>
+                </mask>
+                <g mask="url(#mask1_101:2)">
+                  <path d="M12.3748 101.977L127.5 18.1542L242.625 101.977V130.561H12.3748V101.977Z"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                </g>
+              </g>
+              <defs>
+                <clipPath id="clip0_101:2">
+                  <rect width="256" height="256" fill="var(--themeColor)"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          Home
+        </button>
+        <button class="sidebarButton">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M235 158.988H172.506C164.774 158.988 158.506 165.256 158.506 172.988V235C158.506 238.314 155.82 241 152.506 241H101.529C98.2156 241 95.5293 238.314 95.5293 235V172.988C95.5293 165.256 89.2613 158.988 81.5293 158.988H20C16.6863 158.988 14 156.302 14 152.988V102.012C14 98.698 16.6863 96.0117 20 96.0117H81.5293C89.2613 96.0117 95.5293 89.7437 95.5293 82.0117V20C95.5293 16.6863 98.2156 14 101.529 14H152.506C155.82 14 158.506 16.6863 158.506 20V82.0117C158.506 89.7437 164.774 96.0117 172.506 96.0117H235C238.314 96.0117 241 98.698 241 102.012V152.988C241 156.302 238.314 158.988 235 158.988Z"
+                stroke="var(--themeColor)" stroke-width="20"></path>
+            </svg>
+          </div>
+          Post
+        </button>
+        <button class="sidebarButton">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_102:25)">
+                <path
+                  d="M242 260C242 272.368 232.248 285.987 211.038 297.105C190.3 307.976 160.958 315 128 315C95.0417 315 65.6996 307.976 44.9615 297.105C23.7515 285.987 14 272.368 14 260C14 247.632 23.7515 234.013 44.9615 222.895C65.6996 212.024 95.0417 205 128 205C160.958 205 190.3 212.024 211.038 222.895C232.248 234.013 242 247.632 242 260Z"
+                  stroke="var(--themeColor)" stroke-width="20"></path>
+                <circle cx="128" cy="105" r="63" stroke="var(--themeColor)" stroke-width="20"></circle>
+              </g>
+              <defs>
+                <clipPath id="clip0_102:25">
+                  <rect width="256" height="256"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          Profile
+        </button>
+        <button class="sidebarButton">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_204_4)">
+                <rect x="142" y="208" width="96" height="96" rx="14" stroke="var(--themeColor)" stroke-width="20">
+                </rect>
+                <rect x="18" y="18" width="96" height="96" rx="14" stroke="var(--themeColor)" stroke-width="20"></rect>
+                <rect x="142" y="-40" width="96" height="96" rx="14" stroke="var(--themeColor)" stroke-width="20">
+                </rect>
+                <rect x="18" y="142" width="96" height="96" rx="14" stroke="var(--themeColor)" stroke-width="20"></rect>
+                <rect x="142" y="84" width="96" height="96" rx="14" stroke="var(--themeColor)" stroke-width="20"></rect>
+              </g>
+              <defs>
+                <clipPath id="clip0_204_4">
+                  <rect width="256" height="256"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          Groups
+        </button>
+        <!--
+        <button class="sidebarButton">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_102:25)">
+                <path
+                  d="M242 260C242 272.368 232.248 285.987 211.038 297.105C190.3 307.976 160.958 315 128 315C95.0417 315 65.6996 307.976 44.9615 297.105C23.7515 285.987 14 272.368 14 260C14 247.632 23.7515 234.013 44.9615 222.895C65.6996 212.024 95.0417 205 128 205C160.958 205 190.3 212.024 211.038 222.895C232.248 234.013 242 247.632 242 260Z"
+                  stroke="var(--themeColor)" stroke-width="20"></path>
+                <circle cx="128" cy="105" r="63" stroke="var(--themeColor)" stroke-width="20"></circle>
+              </g>
+              <defs>
+                <clipPath id="clip0_102:25">
+                  <rect width="256" height="256"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          Search
+        </button>
+        -->
+        <button class="sidebarButton" id="premium">
+          <div class="sidebarButtonImg">
+            <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15.4064 92.0392L44.651 59.5289C45.1307 58.9957 45.745 58.6012 46.4295 58.3868L126.305 33.3743C127.083 33.1306 127.917 33.1306 128.695 33.3743L208.57 58.3868C209.255 58.6012 209.869 58.9957 210.349 59.5289L239.594 92.0392C240.962 93.5602 240.962 95.8684 239.594 97.3894L130.474 218.694C128.885 220.461 126.115 220.461 124.526 218.694L15.4064 97.3894C14.0382 95.8684 14.0382 93.5602 15.4064 92.0392Z"
+                stroke="#FF42A7" stroke-width="20"></path>
+              <path
+                d="M86 179V140.417M86 140.417V119.5C86 97.1325 104.132 79 126.5 79H136.291C153.251 79 167 92.7487 167 109.709V109.709C167 126.668 153.251 140.417 136.292 140.417H86Z"
+                stroke="#FF42A7" stroke-width="20"></path>
+            </svg>
+          </div>
+          Premium
+        </button>
+      </div>
+      <div class="sidebarNotifHolder"></div>
+      <div class="sidebarSection" id="accountInfo">
+        <img class="accountInfoPic"></img>
+        <div class="accountInfoMain">
+          <div class="accountInfoName"></div>
+          <div class="accountInfoActions">
+            <button class="accountInfoAction" id="logoutB">
+              <div class="accountInfoActionImg">
+                <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M14.4865 124.509L123.607 32.3383C127.507 29.0437 133.478 31.8162 133.478 36.922V78.9462C133.478 82.2599 136.165 84.9462 139.478 84.9462H240C243.314 84.9462 246 87.6325 246 90.9462V162.258C246 165.572 243.314 168.258 240 168.258H139.478C136.165 168.258 133.478 170.944 133.478 174.258V219.259C133.478 224.334 127.569 227.117 123.656 223.884L14.5363 133.718C11.6525 131.335 11.6286 126.923 14.4865 124.509Z"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                </svg>
+              </div>
+            </button>
+            <button class="accountInfoAction" id="settingsB">
+              <div class="accountInfoActionImg">
+                <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M126.5 149C138.374 149 148 139.374 148 127.5C148 115.626 138.374 106 126.5 106C114.626 106 105 115.626 105 127.5C105 139.374 114.626 149 126.5 149Z"
+                    fill="var(--themeColor)"></path>
+                  <path
+                    d="M101 64L108.972 12.846C109.048 12.3591 109.467 12 109.96 12H144.04C144.533 12 144.952 12.3591 145.028 12.846L153 64"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M153 192L145.028 243.154C144.952 243.641 144.533 244 144.04 244H109.96C109.467 244 109.048 243.641 108.972 243.154L101 192"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M84.5744 182.517L36.2877 201.19C35.8281 201.367 35.3074 201.184 35.061 200.757L18.0211 171.243C17.7747 170.816 17.876 170.274 18.2598 169.964L58.5744 137.483"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M169.426 73.4833L217.712 54.8103C218.172 54.6326 218.693 54.8162 218.939 55.243L235.979 84.757C236.225 85.1838 236.124 85.7265 235.74 86.0357L195.426 118.517"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M195.426 137.483L235.74 169.964C236.124 170.274 236.225 170.816 235.979 171.243L218.939 200.757C218.693 201.184 218.172 201.367 217.712 201.19L169.426 182.517"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M58.5744 118.517L18.2598 86.0357C17.876 85.7265 17.7747 85.1838 18.0211 84.757L35.061 55.243C35.3074 54.8162 35.8281 54.6326 36.2877 54.8103L84.5744 73.4833"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                  <path
+                    d="M194 128C194 165.003 164.003 195 127 195C89.9969 195 60 165.003 60 128C60 90.9969 89.9969 61 127 61C164.003 61 194 90.9969 194 128Z"
+                    stroke="var(--themeColor)" stroke-width="20"></path>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="stickyContainer" id="connectingDisplay">
+        <div class="connectingDisplayTitle">Connecting</div><span class="connectingDisplayDisc">Establishing a
+          connection to Photop...</span>
+      </div>
+      <div class="pageHolder"></div>
+    </div>
+  </div>
+
+  <script async>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/serviceworker.js");
+      });
+    }
+  </script>
+
+  <script src="https://simplesocket.net/static/v2/simplesocket.js"></script>
+  <script src="crucial.js"></script>
+</body>
+</html>
