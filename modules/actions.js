@@ -229,6 +229,11 @@ modules.actions = function() {
                 (await getModule("ban"))(post.getAttribute("userid"), post.getAttribute("name"))
               }]);
               dropdownButtons.unshift(["Delete", "#FF5C5C", deletePost]);
+            } else {
+              let groupID = getParam("group");
+              if (currentPage == "group" && groups[groupID] != null && groups[groupID].Owner == userID) {
+                dropdownButtons.unshift(["Delete", "#FF5C5C", deletePost]);
+              }
             }
           }
         }
@@ -443,11 +448,15 @@ modules.actions = function() {
                 (await getModule("ban"))(chat.getAttribute("userid"), chat.getAttribute("user"));
               }]);
               dropdownButtons.unshift(["Delete", "#FF5C5C", deleteChat]);
+            } else {
+              let groupID = getParam("group");
+              if (currentPage == "group" && groups[groupID] != null && groups[groupID].Owner == userID) {
+                dropdownButtons.unshift(["Delete", "#FF5C5C", deleteChat]);
+              }
             }
-          } else {
-            dropdownButtons.unshift(["Report", "#FFCB70", function() {
-              reportContent(chat.getAttribute("id"), chat.getAttribute("user"), "chat");
-            }]);
+            if (hasPremium()) {
+              dropdownButtons.unshift(["Edit Text", "var(--premiumColor)", editChat]);
+            }
           }
         }
         dropdownButtons.unshift(["Reply", "#2AF5B5", function() {

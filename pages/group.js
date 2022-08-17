@@ -317,7 +317,7 @@ pages.group = async function() {
       }
     }], ["Wait, no", "var(--grayColor)"]]);
   }
-  if (groups[groupID] != null) {
+  if (group != null) {
     let newPost = findC("newPost");
     if (newPost == null) {
       createpost("groupMainHolder");
@@ -479,6 +479,10 @@ pages.group = async function() {
     if (postHolder == null) {
       postHolder = createElement("postHolder", "div", "groupMainHolder");
     }
+    let notifHolder = findI(groupID + "notif");
+    if (notifHolder != null) {
+      notifHolder.remove();
+    }
     let [code, response] = await sendRequest("GET", getURL);
     if (code == 200) {
       let data = JSON.parse(response);
@@ -505,6 +509,7 @@ pages.group = async function() {
   }
 
   loadPosts();
+  window.refreshPostsFunction = loadPosts;
 
   tempListen(document, "scroll", function() {
     if (postHolder != null && (window.innerHeight + window.scrollY) >= postHolder.offsetHeight - 500 && !loadingPosts) {

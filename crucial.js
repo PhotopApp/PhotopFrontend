@@ -388,6 +388,8 @@ function setAccountSub(location) {
           tempListen(refreshPosts, "click", function() {
             if (currentPage != "group") {
               setPage("home");
+            } else if (window.refreshPostsFunction != null) {
+              window.refreshPostsFunction();
             } else {
               setPage("group");
             }
