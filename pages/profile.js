@@ -54,18 +54,24 @@ pages.profile = async function() {
     if (code != 200) {
       if (code != 409 || checkPermision(account.Role, "CanUnbanUser") != true) {
         showPopUp("Error Loading Profile", response, [["Back", "var(--grayColor)", goBack]]);
-      } else {
-        showPopUp("Unban User", "Are you sure you want to unban this user?", [["Unban", "#FF5C5C", async function() {
-          await sendRequest("PATCH", "mod/unban?userid=" + profileID);
-          refreshPage();
-        }], ["Back", "var(--grayColor)", goBack]]);
+        return;
       }
-      return;
     }
     data = JSON.parse(response);
     currentProfile = data;
     user = data.user;
     recentUsers[profileID] = user;
+    if (user.ActivePunishment != null) {
+      let modBanPrompt = [["Okay", "var(--grayColor)"]];
+      if (checkPermision(account.Role, "CanUnbanUser")) {
+        modBanPrompt.unshift(["Unban", "#FF5C5C", async function() {
+          showPopUp("Unban User", "Are you sure you want to unban this user?", [["Unban", "#FF5C5C", async function() {
+            await sendRequest("PATCH", "mod/unban?userid=" + profileID);
+          }], ["Okay", "var(--grayColor)"]]);
+        }]);
+      }
+      showPopUp("User is Banned", "This user is currently banned until " + (user.ActivePunishment.BanLength == "Permanent" ? "<i>Never</i>" : formatFullDate(Date.now() + (user.ActivePunishment.BanLength*1000))) + " with a reason of: <i>" + user.ActivePunishment.BanReason + "</i>", modBanPrompt);
+    }
   }
   if (user == null) {
     await fetchProfileContent();
@@ -233,7 +239,7 @@ pages.profile = async function() {
         let likes = getObject(likesLoad, "_id");
         for (let i = 0; i < posts.length; i++) {
           let post = posts[i];
-          renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null), isPinned: (currentProfile.user.ProfileData != null && post._id == currentProfile.user.ProfileData.PinnedPost) });
+          renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null), isPinned: (user.ProfileData != null && post._id == user.ProfileData.PinnedPost) });
         }
         if (posts.length < 15) {
           postHolder.setAttribute("allDownPostsLoaded", "");

@@ -15,10 +15,10 @@ modules.groupnotif = function(group) {
   }
   newNotif.addEventListener("click", function() {
     newNotif.remove();
-    modifyParams("group", group._id);
-    if (window.refreshPostsFunction != null) {
+    if (currentPage == "group" && getParam("group") == group._id && window.refreshPostsFunction != null) {
       window.refreshPostsFunction();
     } else {
+      modifyParams("group", group._id);
       setPage("group");
     }
   });

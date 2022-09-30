@@ -87,6 +87,18 @@ pages.settings = function() {
           <div class="settingsSmall">Set who can see your profile.</div>
           <button class="settingsVisibility">${account.ProfileData.Visibility || "Public"}</button>
           <div class="settingsSmall" id="settingsVisibilityFlavor"></div>
+          <div style="margin-top: 10px;">
+            <div class="settingsTitle">Affiliate Link</div>
+            <div class="settingsSmall">Anyone who signs up using this link will follow you automatically!</div>
+            <div id="settingsAffiliateLinkFlex">
+              <input class="settingsInput" readonly id="affiliateUrlInput"></input>
+              <button id="settingsCopyText">Copy</button>
+            </div>
+            <div class="settingsAffiliateStats">
+              <div class="settingsAffiliateStat" id="settingsAffiliateStatClicks">0 Clicks</div>
+              <div class="settingsAffiliateStat" id="settingsAffiliateStatSignUps">0 Sign Ups</div>
+            </div>
+          </div>
         </div>
         <div class="settingsSection">
           <div class="settingsTitle">Account Removal</div>
@@ -95,6 +107,14 @@ pages.settings = function() {
           <button class="settingsRemoval" id="deleteButton">Delete</button>
         </div>
       `;
+
+      findI("affiliateUrlInput").value = `${window.location.origin}?affiliate=${account._id}`
+      tempListen(findI("settingsCopyText"), "click", function() {
+        copyClipboardText(document.getElementById("affiliateUrlInput").value)
+      });
+      findI("settingsAffiliateStatClicks").textContent = ((account.Affiliate || {}).Clicks || 0) + " Clicks";
+      findI("settingsAffiliateStatSignUps").textContent = ((account.Affiliate || {}).SignUps || 0) + " Sign Ups";
+
       let inputBannerB = findI("imageInputBanner");
       tempListen(findC("settingsBannerHolder"), "click", function() {
         inputBannerB.click();

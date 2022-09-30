@@ -200,6 +200,7 @@ modules.actions = function() {
                   sendRequest("DELETE", "posts/unpin");
                   account.ProfileData = account.ProfileData || {};
                   delete account.ProfileData.PinnedPost;
+                  refreshPage();
                 }], ["Wait, no", "var(--grayColor)"]]);
               }]);
             } else {
@@ -208,6 +209,7 @@ modules.actions = function() {
                   sendRequest("PUT", "posts/pin?postid=" + post.id);
                   account.ProfileData = account.ProfileData || {};
                   account.ProfileData.PinnedPost = post.id;
+                  refreshPage();
                 }], ["Wait, no", "var(--grayColor)"]]);
               }]);
             }

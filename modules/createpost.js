@@ -301,6 +301,8 @@ modules.createpost = function(holder) {
       newPostCharCount.textContent = `0/${lim}`;
       if (groupID == null) {
         setPage("home");
+      } else if (window.refreshPostsFunction != null) {
+        window.refreshPostsFunction();
       } else {
         setPage("group");
       }

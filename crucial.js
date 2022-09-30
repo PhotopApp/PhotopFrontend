@@ -1,5 +1,5 @@
-let serverURL = "https://photop.exotek.co/";
-//let serverURL = "http://localhost:8080/";
+//let serverURL = "https://photop.exotek.co/";
+let serverURL = "http://localhost:8080/";
 let assetURL = "https://photop-content.s3.amazonaws.com/";
 let exotekCDN = "https://exotekcdn.exotektechnolog.repl.co/";
 
@@ -30,7 +30,7 @@ let body = findC("body");
 let app = findC("app");
 let main = findC("main");
 let pageHolder = findC("pageHolder");
-let sidebarButtons = findI("sidebarButtons");
+let sidebarButtons = findI("sidebarButtons");  
 
 let connectingUI = findI("connectingDisplay");
 socket.onopen = function() {
@@ -270,9 +270,11 @@ async function sendRequest(method, path, body, noFileType) {
       }
     }
     let response = await fetch(serverURL + path, sendData);
-    let serverTimeMillisGMT = new Date(response.headers.get("Date")).getTime();
-    let localMillisUTC = new Date().getTime();
-    epochOffset = serverTimeMillisGMT - localMillisUTC;
+    if (response.headers.has("date") == true) {
+      let serverTimeMillisGMT = new Date(response.headers.get("date")).getTime();
+      let localMillisUTC = new Date().getTime();
+      epochOffset = serverTimeMillisGMT - localMillisUTC;
+    }
     switch (response.status) {
       case 401:
         localStorage.removeItem("userID");
@@ -484,6 +486,9 @@ function setPostUpdateSub() {
           likeAmount.textContent = parseInt(likeAmount.textContent) + data.change;
           break;
         case "delete":
+          if (post.style.height == "100%" && window.closeMobileChat != null) {
+            closeMobileChat();
+          }
           post.remove();
           break;
         case "edit":
@@ -637,6 +642,8 @@ async function init() {
       showChat(null, getParam("chat"));
     } else if (getParam("user") != null) {
       setPage("profile");
+    } else if (getParam("j") != null) {
+      setPage("group");
     } else {
       setPage("home");
     }
@@ -691,7 +698,7 @@ async function signUpModal() {
   <input class="signInInput" id="signUpUsername" placeholder="Your Username">
   <input class="signInInput" id="signUpPassword" placeholder="Your Password" type="password">
   <div id="captchaHolder"></div>
-  <div class="tosAgreeText">By clicking "Sign Up" you are agreeing to our <a href="https://app.photop.live/#tos" target="_blank">Terms of Use</a>, <a href="https://app.photop.live/#privacy" target="_blank">Privicy Policy</a>, and <a href="https://app.photop.live/#rules" target="_blank">Rules</a>.</div>
+  <div class="tosAgreeText">By clicking "Sign Up" you are agreeing to our <a href="https://app.photop.live/#tos" target="_blank">Terms of Use</a>, <a href="https://app.photop.live/#privacy" target="_blank">Privacy Policy</a>, and <a href="https://app.photop.live/#rules" target="_blank">Rules</a>.</div>
   `,
     [["Sign Up", "var(--signUpColor)", async function() {
       let email = findI("signUpEmail").value;
@@ -724,7 +731,11 @@ async function signUpModal() {
         return;
       }
 
-      let [code, response] = await sendRequest("POST", "temp/signup?ss=" + socket.secureID, { email: email, username: username, password: password, captcha: captchaKey });
+      let signUpBody = { email: email, username: username, password: password, captcha: captchaKey };
+      if (getParam("affiliate") != null) {
+        signUpBody.affiliate = getParam("affiliate");
+      }
+      let [code, response] = await sendRequest("POST", "temp/signup?ss=" + socket.secureID, signUpBody);
       if (code == 200) {
         findI("backBlur" + signUpPopUp).remove();
         updateToSignedIn(response);
@@ -779,6 +790,11 @@ async function updateToSignedIn(response) {
     if (signInUpBar != null) {
       signInUpBar.remove();
     }
+    if (data.affiliate != null) {
+      showPopUp("Following " + data.affiliate.user, `Welcome to Photop! You joined with <span type="user" userid="${data.affiliate._id}" class="mention" tabindex="0">@${data.affiliate.user}</span>'s invite link and are now following them!`, [["Cool!", "var(--themeColor)"], ["Unfollow", "#FF5C5C", function() {
+        sendRequest("DELETE", "user/unfollow?userid=" + data.affiliate._id);
+      }]]);
+    }
   }
   findC("accountInfoPic").src = decideProfilePic(account);
   findC("accountInfoName").textContent = account.User;
@@ -799,6 +815,11 @@ async function updateToSignedIn(response) {
       groupnotif({ ...group, _id: groupsArr[i] });
     }
   }
+}
+
+// Track Affiliate Clicks:
+if (getParam("affiliate") != null && localStorage.getItem("userID") == null) {
+  sendRequest("POST", "analytics/affiliate", { type: "click", userid: getParam("affiliate") });
 }
 
 function timeSince(time, long) {
@@ -860,7 +881,7 @@ let bb = function(isPost) {
   let o7 = this;
   let token_match = /{[A-Z_]+[0-9]*}/ig;
   let tokens = {
-    'URL': '((?:(?:[a-z][a-z\\d+\\-.]*:\\/{2}(?:(?:[a-z0-9\\-._~\\!$&\'*+,;=:@|]+|%[\\dA-F]{2})+|[0-9.]+|\\[[a-z0-9.]+:[a-z0-9.]+:[a-z0-9.:]+\\])(?::\\d*)?(?:\\/(?:[a-z0-9\\-._~\\!$&\'*+,;=:@|]+|%[\\dA-F]{2})*)*(?:\\?(?:[a-z0-9\\-._~\\!$&\'*+,;=:@\\/?|]+|%[\\dA-F]{2})*)?(?:#(?:[a-z0-9\\-._~\\!$&\'*+,;=:@\\/?|]+|%[\\dA-F]{2})*)?)|(?:www\\.(?:[a-z0-9\\-._~\\!$&\'*+,;=:@|]+|%[\\dA-F]{2})+(?::\\d*)?(?:\\/(?:[a-z0-9\\-._~\\!$&\'*+,;=:@|]+|%[\\dA-F]{2})*)*(?:\\?(?:[a-z0-9\\-._~\\!$&\'*+,;=:@\\/?|]+|%[\\dA-F]{2})*)?(?:#(?:[a-z0-9\\-._~\\!$&\'*+,;=:@\\/?|]+|%[\\dA-F]{2})*)?)))',
+    'URL': '(((http|https)://)(www.)?[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*))',
     'TEXT': '(.*?)',
     'SIMPLETEXT': '[a-zA-Z0-9-_ ]\b',
     'HEX': '([0-9abcdef]+)',
@@ -940,7 +961,6 @@ let bb = function(isPost) {
   o7.ad('(`{TEXT})', '<span style="font-family: monospace;">{TEXT}</span>');
   o7.ad('(^{TEXT})', '<sup>{TEXT}</sup>');
   o7.ad('{URL}', '<a href="{URL}" target="_blank" class="link" title="{URL}">{URL}</a>');
-  o7.ad('https://app.photop.live?gift={HEX}', '<span class="gift-link">https://app.photop.live?gift={HEX}</span>');
   o7.ad('@{HEX}({TEXT}) ', '<span type="user" userid="{HEX}" class="mention" tabindex="0">@{TEXT}</span> ');
   o7.ad('@{HEX}({TEXT})\n', '<span type="user" userid="{HEX}" class="mention" tabindex="0">@{TEXT}</span>\n');
   o7.ad('/Post_{HEX} ', '<span type="postlink" postid="{HEX}" class="post-embed" tabindex="0">/Post_{HEX}</span> ');
@@ -1587,7 +1607,7 @@ async function updateChatting(posts) {
             if (siteData.image != null) {
               embedHTML += `<img class="embedImage" type="imageenlarge"></img>`;
             }
-            embedHTML += `<div style="flex: 1"><div class="embedTitle"></div><div class="embedDesc"></div></div><a class="profileChatOverlay" target="_blank"></a>`;
+            embedHTML += `<div class="embedInfoHolder"><div class="embedTitle"></div><div class="embedDesc"></div></div><a class="profileChatOverlay" target="_blank"></a>`;
             thisSiteEmbed.innerHTML = embedHTML;
             thisSiteEmbed.querySelector(".embedTitle").textContent = siteData.title || siteData.site || "";
             thisSiteEmbed.querySelector(".embedDesc").textContent = siteData.description || "";

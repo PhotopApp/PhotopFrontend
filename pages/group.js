@@ -317,7 +317,7 @@ pages.group = async function() {
       }
     }], ["Wait, no", "var(--grayColor)"]]);
   }
-  if (group != null) {
+  if (groups[groupID] != null) {
     let newPost = findC("newPost");
     if (newPost == null) {
       createpost("groupMainHolder");
@@ -347,6 +347,10 @@ pages.group = async function() {
     joinButton.textContent = "Join";
     toolbar.insertBefore(joinButton, menuButton);
     joinButton.addEventListener("click", async function() {
+      if (userID == null) {
+        promptLogin('Join the hangout today! You must <b>sign in</b> or <b>sign up</b> before being able to <b style="color: var(--themeColor)">Join</b> a group!')
+        return;
+      }
       let [code, response] = await sendRequest("GET", "groups/join?groupid=" + paramID);
       if (code == 200) {
         modifyParams("j");

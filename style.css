@@ -78,6 +78,7 @@ html {
   color: var(--themeColor);
   font-weight: 600;
   font-size: 20px;
+  line-height: 20px;
   display: block;
   font-family: var(--secondFont);
 }
@@ -111,6 +112,7 @@ html {
   flex: 1;
   margin-right: 8px;
   font-size: 22px;
+  line-height: 22px;
   font-weight: 600;
   font-family: var(--secondFont);
 }
@@ -139,6 +141,7 @@ html {
   padding: 6px;
   margin-bottom: 8px;
   font-size: 20px;
+  line-height: 20px;
   background: var(--contentColor);
   border-radius: 12px;
 }
@@ -159,6 +162,7 @@ html {
   background: var(--contentColor2);
   font-weight: 600;
   font-size: 20px;
+  line-height: 20px;
   font-family: inherit;
   color: var(--secondFont);
   text-align: left;
@@ -239,6 +243,7 @@ button:active {
   background: var(--pageColor);
   color: var(--themeColor);
   font-size: 20px;
+  line-height: 20px;
   font-family: var(--secondFont);
   font-weight: bold;
 }
@@ -282,6 +287,7 @@ button:active {
 .accountInfoName {
   color: var(--fontColor);
   font-size: 18px;
+  line-height: 18px;
   font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -368,6 +374,7 @@ button:active {
   width: fit-content;
   margin-top: 1px;
   font-size: 20px;
+  line-height: 20px;
   font-weight: 500;
 }
 .postTimestamp {
@@ -487,7 +494,6 @@ button:active {
 .premiumBenefitTitle {
   margin: 6px 0px 4px 0px;
   color: var(--fontColor);
-
   font-size: 24px;
   font-weight: 600;
 }
@@ -674,6 +680,7 @@ button:active {
   align-items: center;
   cursor: pointer;
   font-size: 28px;
+  line-height: 28px;
 }
 
 .mention {
@@ -748,6 +755,7 @@ button:active {
 .postChatChatting {
   margin-left: auto;
   font-size: 14px;
+  line-height: 14px;
   font-weight: 400;
   color: #bbb;
   font-family: var(--mainFont);
@@ -1032,7 +1040,6 @@ button:active {
   margin-left: 4px;
   border-radius: 8px;
   margin-top: 4px;
-  line-height: unset;
 }
 .dropdown {
   position: fixed;
@@ -1129,7 +1136,6 @@ button:active {
   height: 36px;
   margin: auto 0px 0px auto;
   border-radius: 8px;
-  line-height: 20px;
   color: #fff;
 }
 .previewBanner {
@@ -1319,6 +1325,7 @@ button:active {
   text-align: center;
   font-weight: bold;
   font-size: 18px;
+  line-height: 18px;
   padding: 4px;
   margin-top: 6px;
 }
@@ -1330,6 +1337,7 @@ button:active {
   display: flex;
   margin: 12px 12px 0px 0px;
   font-size: 16px;
+  line-height: 16px;
 }
 .profileDateSpan {
   margin-left: 6px;
@@ -1382,6 +1390,7 @@ button:active {
   background: var(--contentColor);
   display: flex;
   font-size: 14px;
+  line-height: 14px;
   max-width: 296px;
   flex-wrap: wrap;
   position: relative;
@@ -1407,6 +1416,7 @@ button:active {
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .settingsSection {
   flex: 1 1 297px;
   max-width: 297px;
@@ -1498,10 +1508,12 @@ input[type="radio"]:checked + .radioLabel:before, input[type="checkbox"]:checked
   height: 130px;
   margin-top: 4px;
   font-size: 16px;
+  line-height: 16px;
 }
 .settingsProfileDescriptionChar {
   margin-top: 2px;
   font-size: 13px;
+  line-height: 13px;
   color: gray;
   text-align: right;
 }
@@ -1523,6 +1535,32 @@ input[type="radio"]:checked + .radioLabel:before, input[type="checkbox"]:checked
   margin: 6px 0px 6px 0px;
   display: block;
   text-align: center;
+}
+
+#settingsAffiliateLinkFlex {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: 6px;
+}
+#affiliateUrlInput {
+  color: var(--themeColor);
+  margin: 0px;
+}
+#settingsCopyText {
+  margin-left: 6px;
+}
+.settingsAffiliateStats {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
+  justify-content: space-around;
+}
+.settingsAffiliateStat {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ccc;
 }
 
 .zoomedImageHolder{
@@ -1569,6 +1607,7 @@ input[type="radio"]:checked + .radioLabel:before, input[type="checkbox"]:checked
   align-items: center;
   cursor: pointer;
   font-size: 28px;
+  line-height: 28px;
   transition: 0.1s;
 }
 .zoomedImageClose:hover {
@@ -1584,6 +1623,7 @@ input[type="radio"]:checked + .radioLabel:before, input[type="checkbox"]:checked
 .settingsTitle {
   font-weight: bold;
   font-size: 14px;
+  line-height: 14px;
 }
 .settingsSaveHolder {
   display: flex;
@@ -1863,6 +1903,11 @@ input[type="date"]:focus {
   z-index: 101;
   border-radius: 6px;
 }
+.embedInfoHolder {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
 .embedTitle {
   font-weight: 600;
   font-size: 16px;
@@ -2079,6 +2124,7 @@ td {
   position: fixed;
   display: flex;
   flex-direction: column;
+  min-width: 198px;
   height: 100vh;
   top: 0px;
   overflow-y: auto;

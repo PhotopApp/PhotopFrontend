@@ -47,7 +47,7 @@ modules.chat = function (parent, chat, user, reply, isSending, extra) {
   newChat.setAttribute("editing", false);
   newChat.innerHTML = chatHTML;
   if (newChat.querySelector(".chatReplyText") != null) {
-    newChat.querySelector(".chatReplyText").textContent = reply.Text;
+    newChat.querySelector(".chatReplyText").innerHTML = reply.Text;
   }
   if (className == "chat") {
     newChat.querySelector(".chatText").innerHTML = formatText(chat.Text);
