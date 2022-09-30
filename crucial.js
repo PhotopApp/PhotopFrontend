@@ -1,5 +1,5 @@
-//let serverURL = "https://photop.exotek.co/";
-let serverURL = "http://localhost:8080/";
+let serverURL = "https://photop.exotek.co/";
+//let serverURL = "http://localhost:8080/";
 let assetURL = "https://photop-content.s3.amazonaws.com/";
 let exotekCDN = "https://exotekcdn.exotektechnolog.repl.co/";
 
