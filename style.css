@@ -287,7 +287,7 @@ button:active {
 .accountInfoName {
   color: var(--fontColor);
   font-size: 18px;
-  line-height: 18px;
+  line-height: 25px;
   font-weight: 500;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -958,7 +958,11 @@ button:active {
   overflow-wrap: break-word;
   white-space: pre-wrap;
   border-radius: 2px;
-  padding: 2px;
+}
+.chatText[contenteditable="true"] {
+  padding: 4px;
+  background: var(--contentColor3);
+  border-radius: 4px;
 }
 .chatMinfiyText {
   display: block;
@@ -966,7 +970,6 @@ button:active {
   overflow-wrap: break-word;
   white-space: pre-wrap;
   border-radius: 2px;
-  padding: 2px;
 }
 
 .scrollToBottom {
@@ -1040,6 +1043,7 @@ button:active {
   margin-left: 4px;
   border-radius: 8px;
   margin-top: 4px;
+  line-height: unset;
 }
 .dropdown {
   position: fixed;
@@ -1276,6 +1280,7 @@ button:active {
   margin: 6px 0px 0px 8px;
 }
 .profileBio {
+  max-width: 491px;
   overflow-wrap: break-word;
   font-size: 16px;
 }

@@ -293,18 +293,15 @@ modules.createpost = function(holder) {
       endpoint += "?groupid=" + groupID;
     }
     posting = true;
-    let [code] = await sendRequest("POST", endpoint, sendFormData, true);
+    let [code, response] = await sendRequest("POST", endpoint, sendFormData, true);
     posting = false;
     if (code == 200) {
       newPostArea.innerText = "";
       newPostImages.innerHTML = "";
       newPostCharCount.textContent = `0/${lim}`;
-      if (groupID == null) {
-        setPage("home");
-      } else if (window.refreshPostsFunction != null) {
-        window.refreshPostsFunction();
-      } else {
-        setPage("group");
+      if (recentUserPostID != response) {
+        recentUserPostID = response;
+        fetchNewPosts();
       }
     }
     if (newPost != null) {

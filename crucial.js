@@ -12,8 +12,8 @@ let statuses = { 0: ["Offline", "#a4a4a4"], 1: ["Online", "#00FC65"], 2: ["In Gr
 
 let supportedImageTypes = ["png", "jpeg", "jpg", "webp", "svg+xml", "tiff", "tif", "heic", "heif"]; //, "gif"
 
-let monthes = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-let weeks = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 let wireframes = {};
 let pages = {};
@@ -282,25 +282,25 @@ async function sendRequest(method, path, body, noFileType) {
         location.reload();
         break;
       case 429:
-        showPopUp("Rate Limited", await response.text(), [["Okay", "var(--grayColor)"]]);
+        (await getModule("modal"))("Rate Limited", await response.text(), [["Okay", "var(--grayColor)"]]);
         break;
       case 418:
         account.banned = true;
         let data = JSON.parse(await response.text());
-        showPopUp("Account Banned", `Oh no! It appears you have broken a Photop rule resulting in your account being banned.<br><br><b>Account:</b> ${data.account}<br><b>Reason:</b> ${data.reason}<br><b>Expires:</b> ${(data.expires == "Permanent" ? "Permanent" : formatFullDate(data.expires * 1000))}${(data.terminated == true ? "<br><b>Terminated:</b> Yes" : "")}${!data.appealed ? `<br><div id="banAppealInput" contenteditable class="textArea" placeholder="Appeal your Ban"></div><button id="submitAppealButton">Submit</button>` : ""}`);
+        (await getModule("modal"))("Account Banned", `Oh no! It appears you have broken a Photop rule resulting in your account being banned.<br><br><b>Account:</b> ${data.account}<br><b>Reason:</b> ${data.reason}<br><b>Expires:</b> ${(data.expires == "Permanent" ? "Permanent" : formatFullDate(data.expires * 1000))}${(data.terminated == true ? "<br><b>Terminated:</b> Yes" : "")}${!data.appealed ? `<br><div id="banAppealInput" contenteditable class="textArea" placeholder="Appeal your Ban"></div><button id="submitAppealButton">Submit</button>` : ""}`);
         let appealSend = findI("submitAppealButton");
         if (appealSend != null) {
           appealSend.addEventListener("click", async function() {
             let appealInput = findI("banAppealInput");
             if (appealInput.textContent.length < 1) {
-              showPopUp("Write an Appeal", "You must write an appeal before submitting it.", [["Okay", "var(--grayColor)"]]);
+              (await getModule("modal"))("Write an Appeal", "You must write an appeal before submitting it.", [["Okay", "var(--grayColor)"]]);
               return;
             }
             let [code] = await sendRequest("POST", "mod/appeal", { appeal: appealInput.textContent.substring(0, 250) });
             if (code == 200) {
               appealInput.remove();
               appealSend.remove();
-              showPopUp("Appeal Sent", "We've recieved your appeal and will review it as soon as possible.", [["Okay", "var(--grayColor)"]]);
+              (await getModule("modal"))("Appeal Sent", "We've recieved your appeal and will review it as soon as possible.", [["Okay", "var(--grayColor)"]]);
             }
           });
         }
@@ -329,8 +329,20 @@ function getObject(arr, field) {
 
 let accountSubscribe;
 let newPostCount = 0;
+let recentUserPostID;
+function fetchNewPosts() {
+  if (currentPage != "group") {
+    setPage("home");
+  } else if (window.refreshPostsFunction != null) {
+    window.refreshPostsFunction();
+  } else {
+    setPage("group");
+  }
+}
+let setLocation;
 function setAccountSub(location) {
-  let query = { task: "general", location: location };
+  setLocation = location || setLocation;
+  let query = { task: "general", location: setLocation };
   if (userID != null) {
     query.userID = userID;
     query.token = JSON.parse(localStorage.getItem("token")).token.substring(0, 15);
@@ -343,6 +355,10 @@ function setAccountSub(location) {
       switch (data.type) {
         case "newpost":
           if (data.post.UserID == userID) {
+            if (recentUserPostID != data.post._id) {
+              recentUserPostID = data.post._id;
+              fetchNewPosts();
+            }
             return;
           }
           if (account.BlockedUsers != null && account.BlockedUsers.includes(data.post.UserID) == true) {
@@ -387,15 +403,7 @@ function setAccountSub(location) {
             ending = "s";
           }
           refreshPosts.innerHTML = "Show <b>" + newPostCount + "</b> Post" + ending;
-          tempListen(refreshPosts, "click", function() {
-            if (currentPage != "group") {
-              setPage("home");
-            } else if (window.refreshPostsFunction != null) {
-              window.refreshPostsFunction();
-            } else {
-              setPage("group");
-            }
-          });
+          tempListen(refreshPosts, "click", fetchNewPosts);
           break;
         case "join":
           groups[data.data._id] = data.data;
@@ -409,6 +417,7 @@ function setAccountSub(location) {
               groupDisplayHolder.insertBefore(thisGroup, groupDisplayHolder.firstChild);
             }
           }
+          setAccountSub();
           break;
         case "group":
           let group = groups[data.data._id];
@@ -436,6 +445,7 @@ function setAccountSub(location) {
           if (currentPage == "group" && getParam("group") == data.groupID) {
             setPage("groups");
           }
+          setAccountSub();
       }
     });
   }
@@ -591,9 +601,6 @@ findI("logoutB").addEventListener("click", function() {
   }], ["Cancel", "var(--grayColor)"]]);
 });
 
-let showPopUp;
-let showDropdown;
-let showPreview;
 let alreadyInit = false;
 async function init() {
   if (localStorage.getItem("token") != null) {
@@ -604,9 +611,9 @@ async function init() {
   }
   alreadyInit = true;
 
-  showPopUp = await getModule("modal");
-  showDropdown = await getModule("dropdown");
-  showPreview = await getModule("profilepreview");
+  window.showPopUp = await getModule("modal");
+  window.showDropdown = await getModule("dropdown");
+  window.showPreview = await getModule("profilepreview");
 
   if (userID != null) {
     if (getParam("post") != null) {
@@ -1943,7 +1950,6 @@ function reportContent(id, name, type) {
   popUpText.innerHTML += `<div class="reportContextTitle">Additional Context <i>(Optional):</i></div><div id="reportContext" contenteditable="true" placeholder="200 characters max." class="textArea"></div>`;
 }
 function formatDate(time) {
-  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   let d = new Date(time);
   return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
@@ -1975,7 +1981,7 @@ function formatAMPM(date) {
 function formatFullDate(time) {
   let date = new Date(time);
   let splitDate = date.toLocaleDateString().split("/");
-  return weeks[date.getDay()] + ", " + monthes[splitDate[0] - 1] + " " + splitDate[1] + ", " + splitDate[2] + " at " + formatAMPM(date);
+  return week[date.getDay()] + ", " + months[splitDate[0] - 1] + " " + splitDate[1] + ", " + splitDate[2] + " at " + formatAMPM(date);
 }
 
 let viewingTab = true;

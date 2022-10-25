@@ -85,7 +85,7 @@ pages.group = async function() {
         inviteUsername.style.display = "none";
         inviteInput.addEventListener("input", async function() {
           if (inviteInput.value.replace(/\s/g, "").length > 0) {
-            let [code, response] = await sendRequest("GET", "/user/search?type=invite&term=" + inviteInput.value);
+            let [code, response] = await sendRequest("GET", "user/search?type=invite&term=" + inviteInput.value);
             if (code == 200) {
               let data = JSON.parse(response);
               if (data.length > 0) {
@@ -311,6 +311,8 @@ pages.group = async function() {
     showPopUp(title, desc, [[name, "#FF5C5C", async function() {
       let [code, response] = await sendRequest("DELETE", "groups/leave?groupid=" + groupID);
       if (code == 200) {
+        delete groups[groupID];
+        setAccountSub();
         setPage("groups");
       } else {
         showPopUp("Error Leaving", response, [["Okay", "var(--grayColor)"]]);

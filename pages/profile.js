@@ -67,10 +67,10 @@ pages.profile = async function() {
         modBanPrompt.unshift(["Unban", "#FF5C5C", async function() {
           showPopUp("Unban User", "Are you sure you want to unban this user?", [["Unban", "#FF5C5C", async function() {
             await sendRequest("PATCH", "mod/unban?userid=" + profileID);
-          }], ["Okay", "var(--grayColor)"]]);
+          }], ["Cancel", "var(--grayColor)"]]);
         }]);
       }
-      showPopUp("User is Banned", "This user is currently banned until " + (user.ActivePunishment.BanLength == "Permanent" ? "<i>Never</i>" : formatFullDate(Date.now() + (user.ActivePunishment.BanLength*1000))) + " with a reason of: <i>" + user.ActivePunishment.BanReason + "</i>", modBanPrompt);
+      showPopUp("User is Banned", "This user is currently banned until " + (user.ActivePunishment.BanLength == "Permanent" ? "<i>Never</i>" : formatFullDate((user.ActivePunishment.Issued + user.ActivePunishment.BanLength)*1000)) + " with a reason of: <i>" + user.ActivePunishment.BanReason + "</i>", modBanPrompt);
     }
   }
   if (user == null) {

@@ -398,6 +398,7 @@ modules.actions = function() {
             buttonFlexContainer.remove();
             mainElement.setAttribute("contenteditable", "false");
             chat.setAttribute("type", "chat");
+            mainElement.setAttribute("innerText", chat.getAttribute("text"));
           });
 
           // console.log(`I'm having an aneurysm`)
@@ -455,9 +456,6 @@ modules.actions = function() {
               if (currentPage == "group" && groups[groupID] != null && groups[groupID].Owner == userID) {
                 dropdownButtons.unshift(["Delete", "#FF5C5C", deleteChat]);
               }
-            }
-            if (hasPremium()) {
-              dropdownButtons.unshift(["Edit Text", "var(--premiumColor)", editChat]);
             }
           }
         }

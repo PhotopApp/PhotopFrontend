@@ -564,7 +564,7 @@ pages.settings = function() {
 
             tempListen(unblockTile.querySelector(".previewBlockButton"), "click", async function(event) {
               event.target.style.opacity = "0.5";
-              let [code, response] = await sendRequest("PUT", "/user/unblock?userid=" + event.target.getAttribute("userid"));
+              let [code, response] = await sendRequest("PUT", "user/unblock?userid=" + event.target.getAttribute("userid"));
               if (code == 200) {
                 event.target.closest(".blockTile").remove();
                 if (blockedHolder.childElementCount < 1) {
