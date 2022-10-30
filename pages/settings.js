@@ -619,9 +619,10 @@ pages.settings = function() {
     inventory: async function() {
       let inventoryHolder = createElement("settingsHolder-inventory", "div", "pageHolder");
       // send request to get the inventory. in the meanwhile this array will do.
-
+      let giftsHolder = createElement("inventorySection", "div", inventoryHolder);
+      let giftTitle = createElement("inventoryTitle", "div", giftsHolder);
       for (let i = 0; i < 3; i++) {
-        let giftHolder = createElement("giftHolder", "div", inventoryHolder);
+        let giftHolder = createElement("giftHolder", "div", giftsHolder);
         let giftHTML = `
         <div class="settingsInventoryPremiumGift">
           <div class = "">
@@ -632,6 +633,7 @@ pages.settings = function() {
         </div>
         `;
         giftHolder.innerHTML = giftHTML;
+        giftTitle.innerHTML = `Gifts <b>${i+1}</b>`;
       }
     }
 

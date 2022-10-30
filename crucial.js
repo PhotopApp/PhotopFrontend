@@ -30,7 +30,7 @@ let body = findC("body");
 let app = findC("app");
 let main = findC("main");
 let pageHolder = findC("pageHolder");
-let sidebarButtons = findI("sidebarButtons");  
+let sidebarButtons = findI("sidebarButtons");
 
 let connectingUI = findI("connectingDisplay");
 socket.onopen = function() {
@@ -242,10 +242,13 @@ let epochOffset = 0;
 function getEpoch() {
   return Date.now() + epochOffset;
 }
+let sentFirstReq = false;
 async function sendRequest(method, path, body, noFileType) {
   if (account.banned == true && path != "mod/appeal") {
     return [0, "Account Banned"];
   }
+  let hadSentFirst = sentFirstReq;
+  sentFirstReq = true;
   try {
     let sendData = {
       method: method,
@@ -310,6 +313,9 @@ async function sendRequest(method, path, body, noFileType) {
     }
     return [0, "Request Refused"];
   } catch (err) {
+    if (hadSentFirst == false) {
+      findI("backBlur" + (await getModule("modal"))("Error Reaching Server", "All no! We encountered an error sending your request through the pipes of the internet. Please try again later.", [["Retry", "var(--themeColor)", function() { location.reload(); }]])).style.zIndex = 999999;
+    }
     console.log("FETCH ERROR: " + err);
     return [0, "Fetch Error"];
   }
@@ -649,7 +655,7 @@ async function init() {
       showChat(null, getParam("chat"));
     } else if (getParam("user") != null) {
       setPage("profile");
-    } else if (getParam("j") != null) {
+    } else if (getParam("j") != null || getParam("group") != null) {
       setPage("group");
     } else {
       setPage("home");

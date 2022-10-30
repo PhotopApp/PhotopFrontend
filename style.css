@@ -1477,6 +1477,10 @@ input[type="radio"]:checked + .radioLabel.ban, input[type="checkbox"]:checked + 
   background: #FF5C5C;
   font-weight: bold;
 }
+input[type="radio"]:checked + .radioLabel.premPlan, input[type="checkbox"]:checked + .radioLabel.premPlan {
+  background: var(--premiumColor);
+  font-weight: bold;
+}
 .radioLabel:hover {
   background: var(--contentColor3);
 }
@@ -2439,16 +2443,27 @@ td {
   flex-direction: row;
 }
 
+.inventorySection {
+  background: var(--contentColor);
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 7.5px;
+}
+
+.inventoryTitle {
+  font-size: 20px;
+}
+
 .settingsInventoryPremiumGift {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  width: calc(100% - 16px);
   height: 100%;
   margin-top: 7.5px;
-  background: var(--contentColor);
-  padding: 10px 0px;
-  border-radius: 3px;
+  background: var(--contentColor2);
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .settingsPremiumClaim {

@@ -325,10 +325,10 @@ modules.actions = function() {
             copyClipboardText("/Chat_" + chat.id);
           }]
         ];
-
+        let mainElement;
         function editChat() {
           let spanChildren = chat.querySelectorAll("span");
-          let mainElement = spanChildren[spanChildren.length - 1];
+          mainElement = spanChildren[spanChildren.length - 1];
           mainElement.setAttribute("contenteditable", "true");
           mainElement.focus();
           console.log("Main element: ", mainElement);

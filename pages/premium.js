@@ -47,7 +47,7 @@ wireframes.premium = `
   </div>
   <div id = "premTopSupport">
     <div id = "premiumHeader">Support the platform you love</div>
-    <div id = "premiumSubText">As great as it would be, servers don't grow on trees. Photop with no advertisements or tracking mechanisms, relies on the those who purchase premium in order to keep the site up. Consider supporting Photop today!</div>
+    <div id = "premiumSubText">As great as it would be, servers don't grow on trees. Photop with has no advertisements or tracking mechanisms, so it relies on the those who purchase premium in order to keep the site up. Consider supporting Photop today!</div>
     <div id = "premiumButtonWrapper2">
       <button class = "subscribe shine" id = "premiumSub">Subscribe</button>
       <button class = "gift shine" id = "premiumGift">Gift</button>
@@ -59,7 +59,10 @@ pages.premium = async function() {
   // I made this because I was bored delete it if you want to.
   const subButton = findI("premiumSub");
   const giftButton = findI("premiumGift");
-
+  const planForm =  `
+    <input type="radio" name="premPlan" value="monthly" id="monthly" selected><label for="monthly" class="radioLabel premPlan">Monthly $4.99/mo</label>
+    <input type="radio" name="premPlan" value="yearly" id="yearly"><label for="yearly" class="radioLabel premPlan">Yearly $49.99/y ($4.17/mo)</label>
+  `;
   const buyForm = `
     <input placeholder = "Card Number" class = "premiumInput premiumInputLarge">
     <div id = "premiumCardFlexData">
@@ -67,12 +70,29 @@ pages.premium = async function() {
       <input placeholder = "MM/YY" class = "premiumInput" type="date">
     </div>
     <input placeholder = "Name on Card" class = "premiumInput premiumInputLarge">
-    `
-
+    `;
   giftButton.onclick = function() {
-    showPopUp("Card Info", buyForm, [["Submit", "var(--premiumColor)"]]);
+    let popUpCode = showPopUp("Choose a Plan", planForm, [["Next", "var(--premiumColor)", function () {
+      let popUpText = findI("modalText" + popUpCode);
+      let selectedPlan = popUpText.querySelector('input[name="premPlan"]:checked');
+      if (selectedPlan == null) {
+        showPopUp("Nothing Selected", "Please select a plan.", [["Okay", "var(--grayColor)"]]);
+        return;
+      }
+      selectedPlan = selectedPlan.value;
+      showPopUp("Purchase Plan", buyForm, [["Confirm", "var(--premiumColor)"], ["Cancel", "var(--grayColor)"]]);
+    }], ["Cancel", "var(--grayColor)"]]);
   }
   subButton.onclick = function() {
-    showPopUp("Card Info", buyForm, [["Submit", "var(--premiumColor)"]]);
+    let popUpCode = showPopUp("Choose a Plan", planForm, [["Next", "var(--premiumColor)", function () {
+      let popUpText = findI("modalText" + popUpCode);
+      let selectedPlan = popUpText.querySelector('input[name="premPlan"]:checked');
+      if (selectedPlan == null) {
+        showPopUp("Nothing Selected", "Please select a plan.", [["Okay", "var(--grayColor)"]]);
+        return;
+      }
+      selectedPlan = selectedPlan.value;
+      showPopUp("Purchase Plan", buyForm, [["Confirm", "var(--premiumColor)"], ["Cancel", "var(--grayColor)"]]);
+    }], ["Cancel", "var(--grayColor)"]]);
   }
 }
