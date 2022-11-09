@@ -390,7 +390,7 @@ pages.settings = function() {
       });
 
       tempListen(findI("disableButton"), "click", function() {
-        showPopUp("Are You Sure?", "Disabling your account will hide all content from you while still allowing you to return at any time.", [["Confirm", "#FF5786", async function() {
+        showPopUp("Are You Sure?", "Disabling your account will hide all of your content while still allowing you to return at any time.", [["Confirm", "#FF5786", async function() {
           let [code, response] = await sendRequest("PUT", "me/settings", { update: "removal", value: "disable" });
           if (code == 200) {
             setPage("home");
@@ -403,7 +403,7 @@ pages.settings = function() {
         }], ["Wait, no", "var(--grayColor)"]]);
       });
       tempListen(findI("deleteButton"), "click", function() {
-        showPopUp("ARE YOU SURE!?!", "Deleting your account will hide all content from you and after 30 days all data associated with you will be removed permanently.", [["Confirm", "#FF5786", async function() {
+        showPopUp("ARE YOU SURE!?!", "Deleting your account will hide all of your content, and after 30 days, all data associated with you will be removed permanently.", [["Confirm", "#FF5786", async function() {
           let [code, response] = await sendRequest("PUT", "me/settings", { update: "removal", value: "delete" });
           if (code == 200) {
             setPage("home");
@@ -413,7 +413,7 @@ pages.settings = function() {
           } else {
             showPopUp("An Error Occurred", response, [["Okay", "var(--themeColor)"]]);
           }
-        }], ["NO", "var(--grayColor)"]]);
+        }], ["WAIT NO", "var(--grayColor)"]]);
       });
       tempListen(findI("saveURL"), "click", async function() {
         let url = findI("settingsNewUrl").value;
@@ -434,9 +434,12 @@ pages.settings = function() {
       let displayHolder = createElement("settingsHolder-display", "div", "pageHolder");
       displayHolder.innerHTML = `<div class="settingsSection">
   <div class="settingsTitle">Theme</div>
+  <input type="radio" name="theme" value="Bootop" id="themeBootop"><label for="themeBootop" class="radioLabel">Bootop</label>
   <input type="radio" name="theme" value="Dark" id="themeDark"><label for="themeDark" class="radioLabel">Dark</label>
   <input type="radio" name="theme" value="Light" id="themeLight"><label for="themeLight" class="radioLabel">Light</label>
   <input type="radio" name="theme" value="Blood Moon" id="themeBloodMoon"><label for="themeBloodMoon" class="radioLabel">Blood Moon</label>
+  <input type="radio" name="theme" value="Under The Sea" id="themeUnderTheSea"><label for="themeUnderTheSea" class="radioLabel">Under The Sea</label>
+  <input type="radio" name="theme" value="Hacker" id="themeHacker"><label for="themeHacker" class="radioLabel">Hacker</label>
 </div>
 <div class="settingsSection">
   <div class="settingsTitle">Embeds</div>
@@ -500,7 +503,6 @@ pages.settings = function() {
           }
         }
       });
-      /*
       findI("themeHacker").addEventListener("change", async function () {
         if (findI("themeHacker").checked) {
           let updatedSettings = account.Settings.Display;
@@ -516,7 +518,36 @@ pages.settings = function() {
           }
         }
       });
-      */
+      findI("themeUnderTheSea").addEventListener("change", async function () {
+        if (findI("themeUnderTheSea").checked) {
+          let updatedSettings = account.Settings.Display;
+          updatedSettings.Theme = "Under The Sea Mode";
+          updateDisplay("Under The Sea");
+          let [code, response] = await sendRequest("POST", "me/settings", {update: "display", value: updatedSettings});
+          if (code == 200) {
+            
+          } else {
+            showPopUp("Error Updating Theme", response, [["Okay", "var(--grayColor)"]]);
+            findI("theme" + account.Settings.Display.Theme.replace(/ Mode/g, "")).checked = true;
+            updateDisplay(account.Settings.Display.Theme.replace(/ Mode/g, ""));
+          }
+        }
+      });
+      findI("themeBootop").addEventListener("change", async function () {
+        if (findI("themeBootop").checked) {
+          let updatedSettings = account.Settings.Display;
+          updatedSettings.Theme = "Bootop Mode";
+          updateDisplay("Bootop");
+          let [code, response] = await sendRequest("POST", "me/settings", {update: "display", value: updatedSettings});
+          if (code == 200) {
+            
+          } else {
+            showPopUp("Error Updating Theme", response, [["Okay", "var(--grayColor)"]]);
+            findI("theme" + account.Settings.Display.Theme.replace(/ Mode/g, "")).checked = true;
+            updateDisplay(account.Settings.Display.Theme.replace(/ Mode/g, ""));
+          }
+        }
+      });
       findI("embedYT").checked = account.Settings.Display["Embed YouTube Videos"];
       findI("embedTwitch").checked = account.Settings.Display["Embed Twitch Streams"]; findI("embedGif").checked = account.Settings.Display["Embed GIFs"];
       findI("embedYT").addEventListener("change", async function() {

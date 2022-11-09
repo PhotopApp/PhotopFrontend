@@ -333,94 +333,24 @@ modules.actions = function() {
           mainElement.focus();
           console.log("Main element: ", mainElement);
           let oldText = mainElement.textContent;
-          /*
-          https://exotek.docs.apiary.io/#/reference/chats/resource-5?mc=reference%2Fposts%2Fresource-4%2Fpremium-edit-a-post%2F200
-          */
 
-          chat.innerHTML +=
-            `
-            <div class = "chatEditingButtonFlex">
-              <button class = "chatEditingConfirm">
-                <svg class = "chatEditingSvg" width="90" height="88" viewBox="0 0 90 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_1092_15" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="90" height="88">
-                <rect width="90" height="88" fill="#D9D9D9"/>
-                </mask>
-                <g mask="url(#mask0_1092_15)">
-                <path d="M9 54.8824L29.4561 75.3384C35.2156 81.098 44.9175 79.5684 48.6257 72.3162L81 9" stroke="white" stroke-width="16" stroke-linecap="round"/>
-                </g>
-                </svg>
-              </button>
-              <button class = "chatEditingClose">
-                <svg class = "chatEditingSvg" width="90" height="88" viewBox="0 0 90 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_1092_26" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="90" height="88">
-                <rect width="90" height="88" fill="#D9D9D9"/>
-                </mask>
-                <g mask="url(#mask0_1092_26)">
-                <rect x="3.00024" y="13.1467" width="16" height="102.533" rx="8" transform="rotate(-45 3.00024 13.1467)" fill="white"/>
-                <rect x="75.5017" y="2" width="16" height="102.533" rx="8" transform="rotate(45 75.5017 2)" fill="white"/>
-                </g>
-                </svg>
-              </button>
-            </div>
-          `
-
-          chat.removeAttribute("type");
-          let buttonFlexContainer = chat.querySelector(".chatEditingButtonFlex");
-
-          console.log(`Flex container: `, buttonFlexContainer);
-
-          tempListen(buttonFlexContainer.querySelector(".chatEditingConfirm"), "click", async function() {
-            await sleep(1);
-            console.log("Should work I think");
-            console.log(oldText, mainElement.textContent);
-            if (oldText != mainElement.textContent || true) {
-
-              console.log("testy")
-              if (mainElement.textContent === "") {
-                deleteChat();
-              }
-              e.preventDefault();
+          tempListen(mainElement, 'keypress', async event => {
+            if (event.key == "Enter") {
+              event.preventDefault()
               let [code, response] = await sendRequest("POST", `chats/edit?chatid=${chat.id} `, { text: mainElement.textContent })
               if (code == 200) {
                 console.log("Success!")
-                buttonFlexContainer.remove();
-                console.log(mainElement);
                 mainElement.setAttribute("contenteditable", "false");
                 chat.setAttribute("type", "chat");
               } else {
                 showPopUp("Oops! Something happened!", response, [["Okay", "var(--themeColor)"]])
               }
             }
-          })
-
-          tempListen(buttonFlexContainer.querySelector(".chatEditingClose"), "click", function() {
-            console.log("RUN");
-            buttonFlexContainer.remove();
-            mainElement.setAttribute("contenteditable", "false");
-            chat.setAttribute("type", "chat");
-            mainElement.setAttribute("innerText", chat.getAttribute("text"));
           });
 
-          // console.log(`I'm having an aneurysm`)
-
-          mainElement.oninput = async function(e) {
-            console.log(e)
-            if (e.key == "Enter" && oldText != mainElement.textContent) {
-              if (mainElement.textContent === "") {
-                deleteChat();
-              }
-              e.preventDefault();
-              let [code, response] = await sendRequest("POST", `chats/edit?chatid=${chat.id} `, { text: mainElement.textContent })
-              if (code == 200) {
-                console.log("Success!")
-                buttonFlexContainer.remove();
-                mainElement.setAttribute("contenteditable", "false");
-                chat.setAttribute("type", "chat");
-              } else {
-                showPopUp("Oops! Something happened!", response, [["Okay", "var(--themeColor)"]])
-              }
-            }
-          }
+          tempListen(mainElement, 'blur', () => {
+            mainElement.setAttribute("contenteditable", "false");
+          });
         }
 
         function deleteChat() {

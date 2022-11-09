@@ -47,7 +47,7 @@ wireframes.premium = `
   </div>
   <div id = "premTopSupport">
     <div id = "premiumHeader">Support the platform you love</div>
-    <div id = "premiumSubText">As great as it would be, servers don't grow on trees. Photop with has no advertisements or tracking mechanisms, so it relies on the those who purchase premium in order to keep the site up. Consider supporting Photop today!</div>
+    <div id = "premiumSubText">As great as it would be, servers don't grow on trees. Photop has no advertisements or tracking mechanisms, so it relies on the those who purchase premium in order to keep the site up. Consider supporting Photop today!</div>
     <div id = "premiumButtonWrapper2">
       <button class = "subscribe shine" id = "premiumSub">Subscribe</button>
       <button class = "gift shine" id = "premiumGift">Gift</button>
@@ -95,4 +95,5 @@ pages.premium = async function() {
       showPopUp("Purchase Plan", buyForm, [["Confirm", "var(--premiumColor)"], ["Cancel", "var(--grayColor)"]]);
     }], ["Cancel", "var(--grayColor)"]]);
   }
+  window.scrollTo(0, 0);
 }

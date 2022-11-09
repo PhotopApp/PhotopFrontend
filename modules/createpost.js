@@ -233,10 +233,10 @@ modules.createpost = function(holder) {
                 });
               } else {
                 if (file.size > 5242881 && !hasPremium()) {
-                  showPopUp("Too big!", "Your image must be under 5MB. However, with Photop Premium you can upload up too 10MB!", [["Okay", "var(--grayColor)"]]);
+                  showPopUp("Too Big!", "Your image must be under 5MB. However, with Photop Premium you can upload up too 10MB!", [["Okay", "var(--grayColor)"]]);
                 } else {
                   if (file.size > 5242881 * 2 && hasPremium()) {
-                    showPopUp("Too big!", "Your image file size must be under 10MB.", [["Okay", "var(--grayColor)"]]);
+                    showPopUp("Too Big!", "Your image file size must be under 10MB.", [["Okay", "var(--grayColor)"]]);
                   }
                 }
               }

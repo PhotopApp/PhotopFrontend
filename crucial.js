@@ -411,6 +411,17 @@ function setAccountSub(location) {
           refreshPosts.innerHTML = "Show <b>" + newPostCount + "</b> Post" + ending;
           tempListen(refreshPosts, "click", fetchNewPosts);
           break;
+        case "checked":
+          let groupSeen = groups[data._id];
+          if (groupSeen == null) {
+            return;
+          }
+          groupSeen.LastChecked = data.seen;
+          let notifHolder = findI(data._id + "notif");
+          if (notifHolder != null) {
+            notifHolder.remove();
+          }
+          break;
         case "join":
           groups[data.data._id] = data.data;
           let groupDisplayHolder = findC("groupsHolder-groups");
@@ -575,6 +586,16 @@ function updateDisplay(type) {
       setCSSVar("--borderColor", "#2ea4fd");
       setCSSVar("--fontColor", "white");
       setCSSVar("--themeColor", "#52d6fc");
+      break;
+    case "Bootop":
+      setCSSVar("--leftSidebarColor", "#262630");
+      setCSSVar("--pageColor", "#151617");
+      setCSSVar("--contentColor", "#1f1f28");
+      setCSSVar("--contentColor2", "#24242e");
+      setCSSVar("--contentColor3", "#2a2a37");
+      setCSSVar("--borderColor", "#323242");
+      setCSSVar("--fontColor", "#ffffff");
+      setCSSVar("--themeColor", "#eb6123");
       break;
     default:
       setCSSVar("--leftSidebarColor", "#262630");
