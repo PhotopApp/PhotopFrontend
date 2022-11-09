@@ -336,7 +336,12 @@ function getObject(arr, field) {
 let accountSubscribe;
 let newPostCount = 0;
 let recentUserPostID;
-function fetchNewPosts() {
+function fetchNewPosts(post) {
+  if (post != null) {
+    if (post.GroupID != getParam("group")) {
+      return;
+    }
+  }
   if (currentPage != "group") {
     setPage("home");
   } else if (window.refreshPostsFunction != null) {
@@ -363,7 +368,7 @@ function setAccountSub(location) {
           if (data.post.UserID == userID) {
             if (recentUserPostID != data.post._id) {
               recentUserPostID = data.post._id;
-              fetchNewPosts();
+              fetchNewPosts(data.post);
             }
             return;
           }
