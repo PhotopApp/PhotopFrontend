@@ -15,6 +15,20 @@ let supportedImageTypes = ["png", "jpeg", "jpg", "webp", "svg+xml", "tiff", "tif
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+let roleTypes = {
+  // Role colors are determined by selecting one prominent color from the Google version of the emoji mixed with #505068.
+  "Owner": ["👑", { CanDeletePosts: true, CanDeleteChats: true, CanBanUsers: true, CanUnbanUser: true }, "#A88D48"],
+  "Moderator": ["🛡️", { CanDeletePosts: true, CanDeleteChats: true, CanBanUsers: true }, "#3F6479"],
+  "Developer": ["👨‍💻", {}, "#63A835"],
+  "Contributor": ["🔧", {}, "#697F94"],
+  "Bug Hunter": ["🐛", {}, "#849040"],
+  "Verified": ["📢", {}, "#A2494F"],
+  "Partner": ["📷", {}, "#395568"],
+  "Tester": ["🧪", {}, "#288887"],
+  "Premium": ["🌟", {}, "#A8A87B"]
+};
+let roleKeyTypes = Object.keys(roleTypes);
+
 let wireframes = {};
 let pages = {};
 let modules = {};
@@ -1523,10 +1537,9 @@ async function updateChatting(posts) {
           let videoEmbed;
           let embedLink;
           account.Settings = account.Settings || {};
-          account.Settings.Display = account.Settings.Display || { "Embed YouTube Videos": true, "Embed Twitch Streams": true };
           if ((link.startsWith("https://www.youtube.com/watch?v=") || link.startsWith("https://youtube.com/watch?v=")) && account.Settings.Display["Embed YouTube Videos"]) {
             videoEmbed = `<iframe class="iframeembed" allowfullscreen></iframe>`;
-            embedLink = "https://youtube.com/embed/" + (new URLSearchParams(new URL(link).search)).get("v") + "?&autoplay=1&mute=1";
+            embedLink = "https://youtube.com/embed/" + (new URLSearchParams(new URL(link).search)).get("v") + "?autoplay=1&mute=1";
           } else if (link.startsWith("https://youtu.be") && account.Settings.Display["Embed YouTube Videos"]) {
             let urlData = new URL(link);
             let endSlash = urlData.pathname.indexOf("/", 1);
@@ -1534,7 +1547,19 @@ async function updateChatting(posts) {
               endSlash = urlData.pathname.length;
             }
             videoEmbed = `<iframe class="iframeembed" allowfullscreen></iframe>`;
-            embedLink = "https://youtube.com/embed/" + urlData.pathname.substring(1, endSlash) + "?&autoplay=1&mute=1";
+            embedLink = "https://youtube.com/embed/" + urlData.pathname.substring(1, endSlash) + "?autoplay=1&mute=1";
+          }account.Settings.Display = account.Settings.Display || { "Embed YouTube Videos": true, "Embed Twitch Streams": true };
+          if ((link.startsWith("https://www.youtube.com/watch?v=") || link.startsWith("https://youtube.com/watch?v=")) && account.Settings.Display["Embed YouTube Videos"]) {
+            videoEmbed = `<iframe class="iframeembed" allowfullscreen></iframe>`;
+            embedLink = "https://youtube.com/embed/" + (new URLSearchParams(new URL(link).search)).get("v") + "?autoplay=1&mute=1";
+          } else if (link.startsWith("https://youtu.be") && account.Settings.Display["Embed YouTube Videos"]) {
+            let urlData = new URL(link);
+            let endSlash = urlData.pathname.indexOf("/", 1);
+            if (endSlash < 0) {
+              endSlash = urlData.pathname.length;
+            }
+            videoEmbed = `<iframe class="iframeembed" allowfullscreen></iframe>`;
+            embedLink = "https://youtube.com/embed/" + urlData.pathname.substring(1, endSlash) + "?autoplay=1&mute=1";
           } else if ((link.startsWith("https://twitch.tv/") || link.startsWith("https://www.twitch.tv/")) && account.Settings.Display["Embed Twitch Streams"]) {
             let urlData = new URL(link);
             let endSlash = urlData.pathname.indexOf("/", 1);
@@ -1563,7 +1588,12 @@ async function updateChatting(posts) {
     }
   }
   if (requestEmbeds.length > 0) {
-    let [code, response] = await sendRequest("POST", "posts/embeds", requestEmbeds);
+    let endpoint = "posts/embeds";
+    let groupID = getParam("group");
+    if (groupID) {
+      endpoint += "?groupid=" + groupID;
+    }
+    let [code, response] = await sendRequest("POST", endpoint, requestEmbeds);
     if (code == 200) {
       let data = JSON.parse(response);
       let embeds = data.embeds;
@@ -1765,19 +1795,6 @@ socket.remotes.stream = async function(data) {
   }
 }
 
-let roleTypes = {
-  // Role colors are determined by selecting one prominent color from the Google version of the emoji mixed with #505068.
-  "Owner": ["👑", { CanDeletePosts: true, CanDeleteChats: true, CanBanUsers: true, CanUnbanUser: true }, "#A88D48"],
-  "Moderator": ["🛡️", { CanDeletePosts: true, CanDeleteChats: true, CanBanUsers: true }, "#3F6479"],
-  "Developer": ["👨‍💻", {}, "#63A835"],
-  "Contributor": ["🔧", {}, "#697F94"],
-  "Bug Hunter": ["🐛", {}, "#849040"],
-  "Verified": ["📢", {}, "#A2494F"],
-  "Partner": ["📷", {}, "#395568"],
-  "Tester": ["🧪", {}, "#288887"],
-  "Premium": ["🌟", {}, "#A8A87B"]
-};
-let roleKeyTypes = Object.keys(roleTypes);
 function setUsernameRole(textHolder, userData, fontSize, limitSingleBadge) {
   if (textHolder == null) {
     return;

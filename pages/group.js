@@ -41,9 +41,9 @@ pages.group = async function() {
       group = JSON.parse(response);
       if (groups[group._id] != null) {
         groupID = group._id;
-        modifyParams("j");
-        modifyParams("group", groupID);
       }
+      modifyParams("j");
+      modifyParams("group", groupID);
     } else {
       showPopUp("Loading Group Failed", response, [["Back", "var(--grayColor)", goBack]]);
     }

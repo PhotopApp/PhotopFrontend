@@ -110,7 +110,10 @@ modules.post = function(parent, post, user, props, embeds) {
     icon.setAttribute("fill", "#FF5786");
     icon.setAttribute("stroke", "#FF5786");
   }
-
+  if (props.jumpToFeed) {
+    newPost.querySelector(".postButton[type='extra']").setAttribute("jump", "");
+  }
+  
   if (isMobile == true) {
     newPost.querySelector(".postPost").style.width = "100%";
     newPost.querySelector(".postChat").style.display = "none";

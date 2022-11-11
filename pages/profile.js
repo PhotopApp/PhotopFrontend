@@ -239,7 +239,7 @@ pages.profile = async function() {
         let likes = getObject(likesLoad, "_id");
         for (let i = 0; i < posts.length; i++) {
           let post = posts[i];
-          renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null), isPinned: (user.ProfileData != null && post._id == user.ProfileData.PinnedPost) });
+          renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null), isPinned: (user.ProfileData != null && post._id == user.ProfileData.PinnedPost), jumpToFeed: true });
         }
         if (posts.length < 15) {
           postHolder.setAttribute("allDownPostsLoaded", "");
@@ -281,7 +281,7 @@ pages.profile = async function() {
           let like = userLikes[i];
           let post = posts[like._id.substring(0, 24)];
           if (post != null) {
-            renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null) });
+            renderPost(postHolder, post, users[post.UserID], { isLiked: (likes[post._id + userID] != null), jumpToFeed: true });
           }
           lastLikeTime = like.Timestamp || lastLikeTime;
         }

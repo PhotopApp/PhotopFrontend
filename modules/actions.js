@@ -176,6 +176,12 @@ modules.actions = function() {
             copyClipboardText("/Post_" + post.id);
           }]
         ];
+        if (button.hasAttribute("jump")) {
+          dropdownButtons.unshift(["Jump to Post", "var(--themeColor)", function() {
+            modifyParams("post", post.id);
+            setPage("viewpost");
+          }]);
+        }
         function editPost() {
 
         }
